@@ -6,17 +6,17 @@
 
 - Creating tables
 
-- Inserting rows into tables with INSERT INTO
-
 - Primary Keys
 
-- Reading rows with SELECT FROM
+- Basic CRUD using SQL queries
 
-- Using WHERE to find rows
+  - INSERT INTO
 
-- Updating rows with UPDATE
+  - SELECT FROM
 
-- Deleting rows with DELETE
+  - UPDATE SET
+
+  - DELETE FROM
 
 - The SQLite3 package in Python
 
