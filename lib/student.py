@@ -1,17 +1,37 @@
 from . import CONN
 from . import CURSOR
+from .course import Course
 
 class Student:
 
     # --- MAGIC METHODS --- #
 
-    def __init__(self, name, grade, id=None):
+    def __init__(self, name, grade, course_id, id=None):
         self.name = name
         self.grade = grade
         self.id = id
+        self.course_id = course_id
 
     def __repr__(self):
-        return f'Student(id={self.id}, name={self.name}, grade={self.grade})'
+        return f'Student(id={self.id}, name={self.name}, course_id={self.course_id})'
+    
+
+    # --- JOIN PROPERTIES --- #
+
+    @property
+    def course(self):
+        sql = """SELECT * FROM courses WHERE id = ?
+        """
+
+        co_tuple = CURSOR.execute(sql, [self.course_id]).fetchone()
+        if co_tuple:
+            return Course(id=co_tuple[0], name=co_tuple[1])
+
+    @course.setter
+    def course(self, course):
+        if type(course) == Course:
+            self.course_id = course.id
+
 
     # --- CLASS SQL METHODS --- #
 
@@ -21,7 +41,8 @@ class Student:
         sql = """CREATE TABLE IF NOT EXISTS students (
             id INTEGER PRIMARY KEY,
             name TEXT,
-            grade NUMBER
+            grade NUMBER,
+            course_id INTEGER
             )
         """
 
@@ -32,11 +53,11 @@ class Student:
 
     # add this to the database
     def create(self):
-        sql="""INSERT INTO students (name, grade) 
-        VALUES (?, ?)
+        sql="""INSERT INTO students (name, grade, course_id) 
+        VALUES (?, ?, ?)
         """
 
-        CURSOR.execute(sql, [self.name, self.grade])
+        CURSOR.execute(sql, [self.name, self.grade, self.course_id])
         CONN.commit()
 
         sql="""SELECT * FROM students
@@ -51,11 +72,11 @@ class Student:
         # save changes to the database
     def update(self):
         sql="""UPDATE students
-        SET name = ?, grade = ?
+        SET name = ?, grade = ?, course_id = ?
         WHERE id = ?
         """
 
-        CURSOR.execute(sql, [self.name, self.grade, self.id])
+        CURSOR.execute(sql, [self.name, self.grade, self.course_id, self.id])
         CONN.commit()
 
 
@@ -66,8 +87,8 @@ class Student:
         WHERE id = ?
         """
 
-        student_tuple = CURSOR.execute(sql, [id]).fetchone()
-        return Student(name=student_tuple[1], grade=student_tuple[2], id=student_tuple[0])
+        st_tuple = CURSOR.execute(sql, [id]).fetchone()
+        return Student(name=st_tuple[1], grade=st_tuple[2], id=st_tuple[0], coures_id=st_tuple[3])
         
     # get a row by id and map it into an instance
     @classmethod
@@ -76,8 +97,8 @@ class Student:
         WHERE name = ?
         """
 
-        student_tuple = CURSOR.execute(sql, [name]).fetchone()
-        return Student(name=student_tuple[1], grade=student_tuple[2], id=student_tuple[0])
+        st_tuple = CURSOR.execute(sql, [name]).fetchone()
+        return Student(name=st_tuple[1], grade=st_tuple[2], id=st_tuple[0], course_id=st_tuple[3])
     
     # get all rows and map them into instances
     @classmethod
@@ -86,7 +107,7 @@ class Student:
 
         student_tuples = CURSOR.execute(sql).fetchall()
 
-        return [Student(name=student[1], grade=student[2], id=student[0]) for student in student_tuples]
+        return [Student(name=student[1], grade=student[2], id=student[0], course_id=student[3]) for student in student_tuples]
         
 
     # remove from the database
