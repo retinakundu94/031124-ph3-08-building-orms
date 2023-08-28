@@ -24,6 +24,10 @@
 
 - Building an ORM in Python
 
+## Getting Started
+
+Fork and clone. In the terminal run `pipenv install` followed by `pipenv shell`. You should be able to debug easily with `python3 debug.py`. If the `ipdb` isn't working then remove it and run `python3 -i debug.py`.
+
 ## Exercises
 
 Build out the predefined empty methods in the `Movie` class in `movie.py`.
