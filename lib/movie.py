@@ -14,7 +14,22 @@ class Movie:
 
     @classmethod
     def create_table(cls):
-        pass
+        sql="""CREATE TABLE IF NOT EXISTS movies (
+        id INTEGER PRIMARY KEY,
+        title TEXT,
+        year NUMBER
+        )
+        """
+
+        return CURSOR.execute(sql)
+        # CONN.commit()
+
+
+
+
+
+
+
 
     @classmethod
     def get_all(cls):
@@ -29,7 +44,26 @@ class Movie:
     # --- SQL INSTANCE METHODS --- #
 
     def create(self):
-        pass
+        sql="""INSERT INTO movies (title, year) 
+        VALUES (?, ?)
+        """
+
+        CURSOR.execute(sql, [self.title, self.year])
+        CONN.commit()
+
+        sql="SELECT last_insert_rowid() FROM movies "
+
+        movie_tuple = CURSOR.execute(sql).fetchone()
+
+        self.id = movie_tuple[0]
+
+
+
+
+
+
+
+
 
     def update(self):
         pass
