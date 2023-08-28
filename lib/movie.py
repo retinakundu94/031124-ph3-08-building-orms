@@ -5,21 +5,10 @@ class Movie:
     def __init__(self, title, year, id=None):
         self.id = id
         self.title = title
-        self._year = year
+        self.year = year
 
     def __repr__(self):
-        return f'<Movie id={self.id} title={self.title} year={self.year}>'
-
-    def get_year(self):
-        return self._year
-
-    def set_year(self, year):
-        if year >= 2000 and isinstance(year, int):
-            self._year = year
-        else:
-            print("That year is too old")
-
-    year = property(get_year, set_year)
+        return f'Movie(id={self.id}, title={self.title}, year={self.year})'
 
     # OBJECT RELATIONAL MAPPING / ORM
 
@@ -73,7 +62,7 @@ class Movie:
     # we need a method to fetch all the rows! we'll map them to a new list of instances
     # this is because we want an instance for every row with all the methods and uses an instance entails
     @classmethod
-    def fetch_all(cls):
+    def get_all(cls):
         # the sql is easy
         sql = "SELECT * FROM movies"
         # we add the .fetch_all() at the end to get a list of tuples
