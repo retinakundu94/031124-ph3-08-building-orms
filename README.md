@@ -1,4 +1,4 @@
-# SQL Fundamentals and SQLite3 in Python
+# ORMs
 
 ## Learning Goals
 
