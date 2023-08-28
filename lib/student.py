@@ -13,7 +13,7 @@ class Student:
     def __repr__(self):
         return f'Student(id={self.id}, name={self.name}, grade={self.grade})'
 
-    # --- CLASS METHODS --- #
+    # --- CLASS SQL METHODS --- #
 
     # make a table if it doesn't exist
     @classmethod
@@ -26,22 +26,6 @@ class Student:
         """
 
         return CURSOR.execute(sql)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     # --- SQL METHODS --- #
@@ -64,41 +48,52 @@ class Student:
 
         self.id = id
 
-
-
-
-
-
-
-
-
-
-    # save changes to the database
+        # save changes to the database
     def update(self):
-        pass
+        sql="""UPDATE students
+        SET name = ?, grade = ?
+        WHERE id = ?
+        """
 
-    # remove from the database
-    def destroy(self):
-        pass
+        CURSOR.execute(sql, [self.name, self.grade, self.id])
+        CONN.commit()
 
-
-
-
-
-
-
-
-
-
-
-
-
-    # get all rows and map them into instances
-    @classmethod
-    def get_all(cls):
-        pass
 
     # get a row by id and map it into an instance
     @classmethod
     def get_by_id(cls, id):
-        pass
+        sql = """SELECT * FROM students
+        WHERE id = ?
+        """
+
+        student_tuple = CURSOR.execute(sql, [id]).fetchone()
+        return Student(name=student_tuple[1], grade=student_tuple[2], id=student_tuple[0])
+        
+    # get a row by id and map it into an instance
+    @classmethod
+    def get_by_name(cls, name):
+        sql = """SELECT * FROM students
+        WHERE name = ?
+        """
+
+        student_tuple = CURSOR.execute(sql, [name]).fetchone()
+        return Student(name=student_tuple[1], grade=student_tuple[2], id=student_tuple[0])
+    
+    # get all rows and map them into instances
+    @classmethod
+    def get_all(cls):
+        sql = "SELECT * FROM students"
+
+        student_tuples = CURSOR.execute(sql).fetchall()
+
+        return [Student(name=student[1], grade=student[2], id=student[0]) for student in student_tuples]
+        
+
+    # remove from the database
+    def destroy(self):
+        sql="""DELETE FROM students
+        WHERE id = ?
+        """
+
+        CURSOR.execute(sql, [ self.id ])
+        CONN.commit()

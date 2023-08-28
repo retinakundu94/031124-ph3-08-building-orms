@@ -10,7 +10,8 @@ class Movie:
     def __repr__(self):
         return f'Movie(id={self.id}, title={self.title}, year={self.year})'
 
-    # --- CLASS METHODS --- #
+
+    # --- SQL CLASS METHODS --- #
 
     @classmethod
     def create_table(cls):
@@ -23,13 +24,6 @@ class Movie:
 
         return CURSOR.execute(sql)
         # CONN.commit()
-
-
-
-
-
-
-
 
     @classmethod
     def get_all(cls):
