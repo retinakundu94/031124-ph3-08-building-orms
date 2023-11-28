@@ -30,7 +30,7 @@ Fork and clone. In the terminal run `pipenv install` followed by `pipenv shell`.
 
 ## Exercises
 
-Build out the predefined empty methods in the `Movie` class in `movie.py`.
+Build out the predefined empty methods in the `Movie` class in `practice.py`.
 
 BONUS: Create a `destroy_by_id` class method. When called, it takes in an id as an argument and deletes the row with that id.
 
