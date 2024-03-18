@@ -2,7 +2,7 @@ from . import CONN
 from . import CURSOR
 
 class Movie:
-    def __init__(self, title, year, id=None):
+    def __init__(self, title:str, year:int, id:int=None):
         self.id = id
         self.title = title
         self.year = year
@@ -24,7 +24,7 @@ class Movie:
         # creates a new instance for each row in the db
 
     @classmethod
-    def get_by_id(cls, id):
+    def get_by_id(cls, id:int):
         pass
         # finds by id and if found instantiates a new instance
 

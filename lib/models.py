@@ -8,9 +8,7 @@ from . import CONN, CURSOR
 
 class Course:
 
-    # --- MAGIC METHODS --- #
-
-    def __init__(self, name, id=None):
+    def __init__(self, name:str, id:int=None):
         self.name = name
         self.id = id
 
@@ -47,7 +45,7 @@ class Course:
 
     # finds by id and if found instantiates a new instance
     @classmethod
-    def get_by_id(cls, id):
+    def get_by_id(cls, id:int):
         sql='''SELECT * FROM courses WHERE id = ?'''
 
         found_course_tuple = CURSOR.execute(sql, [ id ]).fetchone()
@@ -120,9 +118,7 @@ class Course:
 
 class Student:
 
-    # --- MAGIC METHODS --- #
-
-    def __init__(self, name, grade, course_id, id=None):
+    def __init__(self, name:str, grade:int, course_id:int, id:int=None):
         self.name = name
         self.grade = grade
         self.id = id
@@ -166,7 +162,7 @@ class Student:
         
     # BONUS #
     @classmethod
-    def get_by_name(cls, name):
+    def get_by_name(cls, name:str):
         pass
         # find and return instance based on name
     
