@@ -1,0 +1,20 @@
+command history
+
+Helpful commands for testing the Movie class:
+
+Movie.create_table()
+
+the_shining = Movie(title="The Shining", year=1980)
+the_shining.create()
+
+dr_sleep = Movie(title="Doctor Sleep", year=2019)
+dr_sleep.create()
+
+Movie.get_all() # --> shows all movies
+Movie.get_by_id(1) # --> gets the shining
+
+the_shining.year = 2000
+the_shining.update() # --> year should now be 2000
+
+the_shining.destroy()
+the_shining.id # --> should now be None
